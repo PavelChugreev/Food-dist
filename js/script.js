@@ -83,17 +83,54 @@ window.addEventListener("DOMContentLoaded", () => {
                 }
             }
 
-            days.innerHTML = addZero(remain.days); // берем элементы на страницы
-            hours.innerHTML = addZero(remain.hours); // и помещаем в них данные из объекта
-            minutes.innerHTML = addZero(remain.minutes);
-            seconds.innerHTML = addZero(remain.seconds);
-
             if(remain.total <= 0){  // как только остаток времени акции дойдет до нуля
                 clearInterval(timeInterval); // отсчет прекратиться
+            }else{
+                days.innerHTML = addZero(remain.days); // берем элементы на страницы
+                hours.innerHTML = addZero(remain.hours); // и помещаем в них данные из объекта
+                minutes.innerHTML = addZero(remain.minutes);
+                seconds.innerHTML = addZero(remain.seconds);
             }
         }
     }
 
     setTime(".timer", deadLine);
+
+    // Modal window
+    const openModalButtons = document.querySelectorAll("[data-modal]");
+    const modalWindow = document.querySelector(".modal");
+    const closeModalWindowButton  = document.querySelector("[data-close]");
+
+    openModalButtons.forEach( item => {
+        item.addEventListener("click", () => {
+            // modalWindow.style.display = "block";//или
+            modalWindow.classList.add("show");
+            modalWindow.classList.remove("hide");
+
+            document.body.style.overflow = "hidden";// не прокручивает соержимое страницы при открытом
+                                                    // модальном окне
+        });
+    });
+
+    function closeModalWindow(){
+        // modalWindow.style.display = "none"; // или
+        modalWindow.classList.add("hide");
+        modalWindow.classList.remove("show");
+        document.body.style.overflow = "";//возвращает по умолчанию
+    }
+
+    closeModalWindowButton.addEventListener("click", closeModalWindow);
+
+    modalWindow.addEventListener("click", (e) => {
+        if(e.target === modalWindow ){
+            closeModalWindow();
+        }
+    });
+
+    document.addEventListener("keydown", (e) => { //закртыие по нажатию ESC на клаве
+        if( e.code === "Escape"  ){
+            closeModalWindow();
+        }
+    });
 
 });
