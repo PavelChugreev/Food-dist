@@ -101,15 +101,16 @@ window.addEventListener("DOMContentLoaded", () => {
     const modalWindow = document.querySelector(".modal");
     const closeModalWindowButton  = document.querySelector("[data-close]");
 
-    openModalButtons.forEach( item => {
-        item.addEventListener("click", () => {
-            // modalWindow.style.display = "block";//или
-            modalWindow.classList.add("show");
-            modalWindow.classList.remove("hide");
+    function openModalWindow(){
+        // modalWindow.style.display = "block";//или
+        modalWindow.classList.add("show");
+        modalWindow.classList.remove("hide");
+        document.body.style.overflow = "hidden";// не прокручивает соержимое страницы при открытом модальном окне 
+        clearInterval(modalWindowTimer);// мод окно не будет всплывать через N секундб если оно уже было вызвано
+    }
 
-            document.body.style.overflow = "hidden";// не прокручивает соержимое страницы при открытом
-                                                    // модальном окне
-        });
+    openModalButtons.forEach( item => {
+        item.addEventListener("click", openModalWindow);
     });
 
     function closeModalWindow(){
@@ -132,5 +133,17 @@ window.addEventListener("DOMContentLoaded", () => {
             closeModalWindow();
         }
     });
+
+    const modalWindowTimer = setTimeout(openModalWindow, 5000);
+
+    function showModalByScroll(){ //вызов мод окна при прокрутки стр до конца
+        if(window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight){
+            //прокрученная часть + высота видимой часть страницы >= всей высоты прокрутки
+            openModalWindow();
+            window.removeEventListener("scroll", showModalByScroll);//удаляем обработчик чтобы окно всплыло только 1 раз
+        }
+    }
+
+    window.addEventListener("scroll", showModalByScroll);
 
 });
