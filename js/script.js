@@ -206,4 +206,54 @@ window.addEventListener("DOMContentLoaded", () => {
     ).render();
 
     //Forms
+
+    const forms = document.querySelectorAll("form");
+    const message = {
+        loading: "Loading in process",
+        success: "Done",
+        failure: "Error"
+    };
+
+    forms.forEach( item => {
+        postData(item);
+    });
+    
+    function postData(form){
+        form.addEventListener("submit", (e) => { //обработчик по нажатию кнопки подтверждения отправки формы
+            e.preventDefault();
+
+            let statusMessage = document.createElement("div");
+            statusMessage.classList.add("status");
+            statusMessage.textContent = message.loading;
+            form.append(statusMessage);
+
+            const request = new XMLHttpRequest();
+            request.open("POST", "server.php");
+            request.setRequestHeader("Content-type", "application/json; charset=utf-8");
+
+            const formData = new FormData(form);// конструктор введенных данных из формы
+            const obj = {};
+            formData.forEach( (value, key) => { //перебираем все введенные элементы
+                obj[key] = value; //  и добавляем их в объект
+            });
+
+            const json = JSON.stringify(obj);//преобразуем obj с данными в формат json
+            request.send(json);//  и отправляем на сервер
+
+            request.addEventListener("load", () => {
+                if(request.status === 200){
+                    console.log(request.response);
+                    statusMessage.textContent = message.success;
+                    form.reset();
+                    setTimeout(() => {
+                        statusMessage.remove();
+                    }, 2000);
+                } else {
+                    console.log("error");
+                    statusMessage.textContent = message.failure;
+                }
+            });
+
+        });
+    }
 });
