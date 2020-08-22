@@ -99,7 +99,7 @@ window.addEventListener("DOMContentLoaded", () => {
     // Modal window
     const openModalButtons = document.querySelectorAll("[data-modal]");
     const modalWindow = document.querySelector(".modal");
-    const closeModalWindowButton  = document.querySelector("[data-close]");
+    // const closeModalWindowButton  = document.querySelector("[data-close]");
 
     function openModalWindow(){
         // modalWindow.style.display = "block";//или
@@ -120,10 +120,10 @@ window.addEventListener("DOMContentLoaded", () => {
         document.body.style.overflow = "";//возвращает по умолчанию
     }
 
-    closeModalWindowButton.addEventListener("click", closeModalWindow);
+    // closeModalWindowButton.addEventListener("click", closeModalWindow);
 
     modalWindow.addEventListener("click", (e) => {
-        if(e.target === modalWindow ){
+        if(e.target === modalWindow || e.target.getAttribute("data-close") == "" ){
             closeModalWindow();
         }
     });
@@ -134,7 +134,7 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    const modalWindowTimer = setTimeout(openModalWindow, 5000);
+    const modalWindowTimer = setTimeout(openModalWindow, 30000);
 
     function showModalByScroll(){ //вызов мод окна при прокрутки стр до конца
         if(window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight){
@@ -209,7 +209,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     const forms = document.querySelectorAll("form");
     const message = {
-        loading: "Loading in process",
+        loading: "img/form/original.svg",
         success: "Done",
         failure: "Error"
     };
@@ -222,10 +222,11 @@ window.addEventListener("DOMContentLoaded", () => {
         form.addEventListener("submit", (e) => { //обработчик по нажатию кнопки подтверждения отправки формы
             e.preventDefault();
 
-            let statusMessage = document.createElement("div");
-            statusMessage.classList.add("status");
-            statusMessage.textContent = message.loading;
-            form.append(statusMessage);
+            let statusMessage = document.createElement("img");
+            statusMessage.classList.add("spinner");
+            statusMessage.src = message.loading;
+            form.insertAdjacentElement("afterend", statusMessage);
+            console.log(statusMessage);
 
             const request = new XMLHttpRequest();
             request.open("POST", "server.php");
@@ -243,17 +244,39 @@ window.addEventListener("DOMContentLoaded", () => {
             request.addEventListener("load", () => {
                 if(request.status === 200){
                     console.log(request.response);
-                    statusMessage.textContent = message.success;
+                    showThanksModalWindow(message.success);
                     form.reset();
                     setTimeout(() => {
                         statusMessage.remove();
                     }, 2000);
                 } else {
                     console.log("error");
-                    statusMessage.textContent = message.failure;
+                    showThanksModalWindow(message.failure);
                 }
             });
-
         });
+    }
+
+    function showThanksModalWindow(message){
+        const prevModal = document.querySelector(".modal__dialog");
+        prevModal.classList.add("hide");
+        openModalWindow();
+
+        const thanksModal = document.createElement("div");
+        thanksModal.classList.add("modal__dialog");
+        thanksModal.innerHTML = `
+            <div class="modal__content">
+                <div data-close class="modal__close">&times;</div>
+                <div class="modal__title">${message}</div>
+            </div>
+        `;
+        document.querySelector(".modal").append(thanksModal);
+        setTimeout( () => {
+            thanksModal.remove();
+            prevModal.classList.remove("hide");
+            prevModal.classList.add("show");
+            closeModalWindow();
+        },2000);
+
     }
 });
