@@ -226,11 +226,6 @@ window.addEventListener("DOMContentLoaded", () => {
             statusMessage.classList.add("spinner");
             statusMessage.src = message.loading;
             form.insertAdjacentElement("afterend", statusMessage);
-            console.log(statusMessage);
-
-            const request = new XMLHttpRequest();
-            request.open("POST", "server.php");
-            request.setRequestHeader("Content-type", "application/json; charset=utf-8");
 
             const formData = new FormData(form);// конструктор введенных данных из формы
             const obj = {};
@@ -238,21 +233,27 @@ window.addEventListener("DOMContentLoaded", () => {
                 obj[key] = value; //  и добавляем их в объект
             });
 
-            const json = JSON.stringify(obj);//преобразуем obj с данными в формат json
-            request.send(json);//  и отправляем на сервер
-
-            request.addEventListener("load", () => {
-                if(request.status === 200){
-                    console.log(request.response);
-                    showThanksModalWindow(message.success);
-                    form.reset();
-                    setTimeout(() => {
-                        statusMessage.remove();
-                    }, 2000);
-                } else {
-                    console.log("error");
-                    showThanksModalWindow(message.failure);
-                }
+            fetch("server.php", { //адрес сервера, {то что отправляем}
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify(obj)// перевод в json формат для отправки на сервер
+            })
+            .then(data => {
+                return data.text(); //перевод ответа от сервера в текстовый формат
+            })
+            .then(data => { //data вернул сервер
+                console.log(data);
+                showThanksModalWindow(message.success);
+                setTimeout(() => {
+                    statusMessage.remove();
+                }, 2000);
+            }).catch(() => {
+                console.log("error");
+                showThanksModalWindow(message.failure);
+            }).finally( () => {
+                form.reset();
             });
         });
     }
@@ -277,6 +278,5 @@ window.addEventListener("DOMContentLoaded", () => {
             prevModal.classList.add("show");
             closeModalWindow();
         },2000);
-
     }
 });
