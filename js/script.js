@@ -180,30 +180,20 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    const vegMenu = new TypeOfMenu(
-        "img/tabs/vegy.jpg",
-        "vegy",
-        'Меню "Фитнес"',
-        'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
-        229
-    );
-    vegMenu.render();  //  new TypeOfMenu ( 1, 2, 3, ...).render();
+    const getResourse = async (url) => {
+        const res = await fetch(url);
+        if(!res.ok){
+            throw new Error(`Could not fetch ${url}, status: ${res.status}`);
+        }
+        return await res.json();
+    };
 
-    new TypeOfMenu(
-        "img/tabs/elite.jpg",
-        "elite",
-        'Меню “Премиум”',
-        'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
-        550
-    ).render();
-
-    new TypeOfMenu(
-        "img/tabs/post.jpg",
-        "post",
-        'Меню "Постное"',
-        'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
-        430
-    ).render();
+    getResourse("http://localhost:3000/menu")
+        .then(data => {
+            data.forEach( ({img, altimg, title, descr, price}) => {//деструктуризация объекта
+                new TypeOfMenu(img, altimg, title, descr, price, ".menu .container").render();
+            });
+        });
 
     //Forms
 
@@ -215,10 +205,21 @@ window.addEventListener("DOMContentLoaded", () => {
     };
 
     forms.forEach( item => {
-        postData(item);
+        bindData(item);
     });
-    
-    function postData(form){
+
+    const postData = async (url, data) => {//async сообщает о синхронном коде
+        const res = await fetch( url, { //await ставим перед действием которого необходимо дождаться
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: data
+        });
+        return await res.json();
+    };
+
+    function bindData(form){
         form.addEventListener("submit", (e) => { //обработчик по нажатию кнопки подтверждения отправки формы
             e.preventDefault();
 
@@ -228,21 +229,10 @@ window.addEventListener("DOMContentLoaded", () => {
             form.insertAdjacentElement("afterend", statusMessage);
 
             const formData = new FormData(form);// конструктор введенных данных из формы
-            const obj = {};
-            formData.forEach( (value, key) => { //перебираем все введенные элементы
-                obj[key] = value; //  и добавляем их в объект
-            });
-
-            fetch("server.php", { //адрес сервера, {то что отправляем}
-                method: "POST",
-                headers: {
-                    "Content-type": "application/json"
-                },
-                body: JSON.stringify(obj)// перевод в json формат для отправки на сервер
-            })
-            .then(data => {
-                return data.text(); //перевод ответа от сервера в текстовый формат
-            })
+            const json = JSON.stringify(Object.fromEntries(formData.entries()));//formData.entries превращение 
+            //formData в массив массивов //Object.fromEntries переводим ее в классический объект, и потом в формат JSON
+            
+            postData("http://localhost:3000/requests", json)
             .then(data => { //data вернул сервер
                 console.log(data);
                 showThanksModalWindow(message.success);
