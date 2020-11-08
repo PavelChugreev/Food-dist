@@ -1,5 +1,4 @@
-function timer(){
-    const deadLine = "2020-09-15"; // дата окончания акции
+function timer(id , deadline){
 
     function getTimeRemain(endTime){  // получаем остаток времени до конца акции
         const t = Date.parse(endTime) - Date.parse(new Date()); // остток времени в миллисек
@@ -51,7 +50,7 @@ function timer(){
         }
     }
 
-    setTime(".timer", deadLine);
+    setTime(id, deadline);
 }
 
-module.exports = timer;
+export default timer;

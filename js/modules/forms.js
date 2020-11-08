@@ -1,5 +1,8 @@
-function forms(){
-    const forms = document.querySelectorAll("form");
+import {openModalWindow, closeModalWindow} from "./modal";
+import {postData} from "../services/services";
+
+function forms(formSelector, modalWindowTimer){
+    const forms = document.querySelectorAll(formSelector);
     const message = {
         loading: "img/form/original.svg",
         success: "Done",
@@ -10,19 +13,8 @@ function forms(){
         bindData(item);
     });
 
-    const postData = async (url, data) => {//async сообщает о синхронном коде
-        const res = await fetch( url, { //await ставим перед действием которого необходимо дождаться
-            method: "POST",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: data
-        });
-        return await res.json();
-    };
-
     function bindData(form){
-        form.addEventListener("submit", (e) => { //обработчик по нажатию кнопки подтверждения отправки формы
+        form.addEventListener("submit", (e) => {  //обработчик по нажатию кнопки подтверждения отправки формы
             e.preventDefault();
 
             let statusMessage = document.createElement("img");
@@ -53,7 +45,7 @@ function forms(){
     function showThanksModalWindow(message){
         const prevModal = document.querySelector(".modal__dialog");
         prevModal.classList.add("hide");
-        openModalWindow();
+        openModalWindow(".modal", modalWindowTimer);
 
         const thanksModal = document.createElement("div");
         thanksModal.classList.add("modal__dialog");
@@ -68,9 +60,9 @@ function forms(){
             thanksModal.remove();
             prevModal.classList.remove("hide");
             prevModal.classList.add("show");
-            closeModalWindow();
+            closeModalWindow(".modal");
         },2000);
     }
 }
 
-module.exports = forms;
+export default forms;

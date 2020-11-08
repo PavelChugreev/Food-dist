@@ -1,11 +1,12 @@
-function slider(){
-    const prev = document.querySelector(".offer__slider-prev");
-    const next = document.querySelector(".offer__slider-next");
-    let current = document.querySelector("#current");
-    let total = document.querySelector("#total");
-    const slides = document.querySelectorAll(".offer__slide");
-    const slidesWrapper = document.querySelector(".offer__slider-wrapper");
-    const slidesField = document.querySelector(".offer__slider-inner");
+function slider({container, slide, totalCounter, currentCounter, nextArrow, prevArrow, wrapper, field}){
+    const slider = document.querySelector(container);
+    const prev = document.querySelector(prevArrow);
+    const next = document.querySelector(nextArrow);
+    let current = document.querySelector(currentCounter);
+    let total = document.querySelector(totalCounter);
+    const slides = document.querySelectorAll(slide);
+    const slidesWrapper = document.querySelector(wrapper);
+    const slidesField = document.querySelector(field);
     const width = window.getComputedStyle(slidesWrapper).width;// значение ширины из css
     let slideIndex = 1;
     let offset = 0;
@@ -28,7 +29,6 @@ function slider(){
     });
 
         //slider navi
-    const slider = document.querySelector(".offer__slider");
     const indicators = document.createElement("ol");
     const dots =[];
 
@@ -57,16 +57,12 @@ function slider(){
         dots[slideIndex-1].style.opacity = 1;
     }
 
-    function setOffset(){
-        if(offset == +width.replace(/\D/g, "") * (slides.length -1)){// "500 px"
+    next.addEventListener("click", () =>{
+        if (offset == +width.replace(/\D/g, "") * (slides.length - 1)) {// "500 px"
             offset = 0;
-        }else{
+        } else {
             offset += +width.replace(/\D/g, "");
         }
-    }
-
-    next.addEventListener("click", () =>{
-        setOffset();
 
         slidesField.style.transform = `translateX(-${offset}px)`;
         if(slideIndex == slides.length){
@@ -79,7 +75,11 @@ function slider(){
     });
 
     prev.addEventListener("click", () =>{
-        setOffset();
+        if(offset == 0){
+            offset = +width.replace(/\D/g, "") * (slides.length - 1)
+        } else {
+            offset -= +width.replace(/\D/g, "");
+        }
 
         slidesField.style.transform = `translateX(-${offset}px)`;
         if(slideIndex == 1){
@@ -103,4 +103,4 @@ function slider(){
     });
 }
 
-module.exports = slider;
+export default slider;

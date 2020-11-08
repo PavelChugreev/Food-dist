@@ -1,7 +1,7 @@
-function tabs(){
-    const tabsContent = document.querySelectorAll(".tabcontent");
-    const tabs = document.querySelectorAll(".tabheader__item");
-    const tabsWrapper = document.querySelector(".tabheader__items");
+function tabs(tabsSelector, tabsContentSelector, tabsParentSelector, activeClass){
+    const tabs = document.querySelectorAll(tabsSelector);
+    const tabsContent = document.querySelectorAll(tabsContentSelector);
+    const tabsWrapper = document.querySelector(tabsParentSelector);
 
     function hideTabsContent(){
         tabsContent.forEach(item => {
@@ -10,7 +10,7 @@ function tabs(){
             item.classList.remove("show", "fade");//через классы
         });
         tabs.forEach(item => {
-            item.classList.remove("tabheader__item_active");
+            item.classList.remove(activeClass);
         });
     }
 
@@ -21,7 +21,7 @@ function tabs(){
             tabsContent[i].classList.add("show","fade"); // fade тип анимации из mycss.css
         });
         tabsContent.forEach(item => {
-            tabs[i].classList.add("tabheader__item_active");
+            tabs[i].classList.add(activeClass);
         });
     }
 
@@ -30,7 +30,7 @@ function tabs(){
 
     tabsWrapper.addEventListener( "click", event => {
         const target = event.target; //нажатый элемент
-        if ( target && target.classList.contains("tabheader__item")){ //если таргет содержит класс ""
+        if ( target && target.classList.contains(tabsSelector.slice(1))){ // "tabheader__item" //если таргет содержит класс ""
             tabs.forEach((item,i) => { //тогда перебираем все табы(кнопки) и....
                 if(target == item){ // евсли нажаты элемент совпадает с перебираемым табом тогда...
                     hideTabsContent(); // очищаем контент и..
@@ -41,4 +41,4 @@ function tabs(){
     });
 }
 
-module.exports = tabs;
+export default tabs;
