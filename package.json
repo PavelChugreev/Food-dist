@@ -1,7 +1,6 @@
 {
   "name": "food-dist",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,6 +16,11 @@
   },
   "homepage": "https://github.com/PavelChugreev/Food-dist#readme",
   "devDependencies": {
-    "json-server": "^0.16.1"
-  }
+    "json-server": "^0.16.1",
+    "webpack": "^5.4.0",
+    "webpack-cli": "^4.2.0"
+  },
+  "dependencies": {},
+  "keywords": [],
+  "description": ""
 }
