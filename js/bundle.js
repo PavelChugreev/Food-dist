@@ -444,7 +444,7 @@ function slider({container, slide, totalCounter, currentCounter, nextArrow, prev
 
     prev.addEventListener("click", () =>{
         if(offset == 0){
-            offset = +width.replace(/\D/g, "") * (slides.length - 1)
+            offset = +width.replace(/\D/g, "") * (slides.length - 1);
         } else {
             offset -= +width.replace(/\D/g, "");
         }
@@ -636,7 +636,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 window.addEventListener("DOMContentLoaded", () => {
-    const modalWindowTimer = setTimeout(() => (0,_modules_modal__WEBPACK_IMPORTED_MODULE_1__.default)(".modal", modalWindowTimer), 30000);
+    const modalWindowTimer = setTimeout(() => (0,_modules_modal__WEBPACK_IMPORTED_MODULE_1__.openModalWindow)(".modal", modalWindowTimer), 5000);
 
     (0,_modules_tabs__WEBPACK_IMPORTED_MODULE_0__.default)(".tabheader__item", ".tabcontent", ".tabheader__items", "tabheader__item_active");
     (0,_modules_modal__WEBPACK_IMPORTED_MODULE_1__.default)("[data-modal]", ".modal", modalWindowTimer);

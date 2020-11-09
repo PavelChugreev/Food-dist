@@ -76,7 +76,7 @@ function slider({container, slide, totalCounter, currentCounter, nextArrow, prev
 
     prev.addEventListener("click", () =>{
         if(offset == 0){
-            offset = +width.replace(/\D/g, "") * (slides.length - 1)
+            offset = +width.replace(/\D/g, "") * (slides.length - 1);
         } else {
             offset -= +width.replace(/\D/g, "");
         }

@@ -5,10 +5,10 @@ import slider from "./modules/slider";
 import forms from "./modules/forms";
 import cards from "./modules/cards";
 import calc from "./modules/calc";
-import openModalWindow from "./modules/modal";
+import {openModalWindow} from "./modules/modal";
 
 window.addEventListener("DOMContentLoaded", () => {
-    const modalWindowTimer = setTimeout(() => openModalWindow(".modal", modalWindowTimer), 30000);
+    const modalWindowTimer = setTimeout(() => openModalWindow(".modal", modalWindowTimer), 5000);
 
     tabs(".tabheader__item", ".tabcontent", ".tabheader__items", "tabheader__item_active");
     modal("[data-modal]", ".modal", modalWindowTimer);
