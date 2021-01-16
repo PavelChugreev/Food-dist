@@ -136,9 +136,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _services_services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/services */ "./js/services/services.js");
+/* harmony import */ var _modules_menu_db__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../modules/menu-db */ "./js/modules/menu-db.js");
+// import {getResourse} from "../services/services";
 ;
-
+console.log(_modules_menu_db__WEBPACK_IMPORTED_MODULE_0__.default)
 function cards(){
     const menuField = document.querySelector(".menu__field .container");
 
@@ -174,12 +175,18 @@ function cards(){
         }
     }
 
-    (0,_services_services__WEBPACK_IMPORTED_MODULE_0__.getResourse)("http://localhost:3000/menu")
-        .then(data => {
-            data.forEach( ({img, altimg, title, descr, price}) => {//деструктуризация объекта
-                new TypeOfMenu(img, altimg, title, descr, price, ".menu .container").render();
-            });
-        });
+    // getResourse("http://localhost:3000/menu")
+    //     .then(data => {
+    //         data.forEach( ({img, altimg, title, descr, price}) => {//деструктуризация объекта
+    //             new TypeOfMenu(img, altimg, title, descr, price, ".menu .container").render();
+    //         });
+    //     });
+
+    console.log(_modules_menu_db__WEBPACK_IMPORTED_MODULE_0__.default)
+    _modules_menu_db__WEBPACK_IMPORTED_MODULE_0__.default.forEach( ({img, altimg, title, descr, price}) => {
+        new TypeOfMenu(img, altimg, title, descr, price, ".menu .container").render();
+    }); 
+
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (cards);
@@ -270,6 +277,48 @@ function forms(formSelector, modalWindowTimer){
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (forms);
+
+/***/ }),
+
+/***/ "./js/modules/menu-db.js":
+/*!*******************************!*\
+  !*** ./js/modules/menu-db.js ***!
+  \*******************************/
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+const menu = [
+    {
+        img: "img/tabs/vegy.jpg",
+        altimg: "vegy",
+        title: "Меню 'Фитнес'",
+        descr: "Меню 'Фитнес' - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!",
+        price: 9
+    },
+    {
+        "img": "img/tabs/post.jpg",
+        altimg: "post",
+        title: "Меню 'Постное'",
+        descr: "Меню 'Постное' - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.",
+        price: 14
+    },
+    {
+        "img": "img/tabs/elite.jpg",
+        altimg: "elite",
+        title: "Меню 'Премиум'",
+        descr: "В меню 'Премиум' мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!",
+        price: 21
+    }
+];
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (menu);
+
 
 /***/ }),
 
@@ -640,7 +689,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     (0,_modules_tabs__WEBPACK_IMPORTED_MODULE_0__.default)(".tabheader__item", ".tabcontent", ".tabheader__items", "tabheader__item_active");
     (0,_modules_modal__WEBPACK_IMPORTED_MODULE_1__.default)("[data-modal]", ".modal", modalWindowTimer);
-    (0,_modules_timer__WEBPACK_IMPORTED_MODULE_2__.default)(".timer", "2020-12-15");
+    (0,_modules_timer__WEBPACK_IMPORTED_MODULE_2__.default)(".timer", "2021-12-15");
     (0,_modules_slider__WEBPACK_IMPORTED_MODULE_3__.default)({
         container: ".offer__slider", 
         slide: ".offer__slide",

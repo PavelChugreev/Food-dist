@@ -1,5 +1,6 @@
-import {getResourse} from "../services/services";
-
+// import {getResourse} from "../services/services";
+import menu from "../modules/menu-db"
+console.log(menu)
 function cards(){
     const menuField = document.querySelector(".menu__field .container");
 
@@ -35,12 +36,18 @@ function cards(){
         }
     }
 
-    getResourse("http://localhost:3000/menu")
-        .then(data => {
-            data.forEach( ({img, altimg, title, descr, price}) => {//деструктуризация объекта
-                new TypeOfMenu(img, altimg, title, descr, price, ".menu .container").render();
-            });
-        });
+    // getResourse("http://localhost:3000/menu")
+    //     .then(data => {
+    //         data.forEach( ({img, altimg, title, descr, price}) => {//деструктуризация объекта
+    //             new TypeOfMenu(img, altimg, title, descr, price, ".menu .container").render();
+    //         });
+    //     });
+
+    console.log(menu)
+    menu.forEach( ({img, altimg, title, descr, price}) => {
+        new TypeOfMenu(img, altimg, title, descr, price, ".menu .container").render();
+    }); 
+
 }
 
 export default cards;
