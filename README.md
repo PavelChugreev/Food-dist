@@ -2,7 +2,7 @@
 
 ### [Выбрать идеальныый рацион питания](https://pavelchugreev.github.io/Food/)
 
-![Project preview](./img.readme.gif)
+![Project preview](./img/readme.gif)
 
 ### About project:
 * Сайт о здоровой и вкусной еде
