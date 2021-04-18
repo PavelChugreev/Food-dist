@@ -1,6 +1,6 @@
 # Healthy Food
 
-### [Выбрать идеальныый рацион питания](https://pavelchugreev.github.io/Food/)
+### [Выбрать идеальный рацион питания](https://pavelchugreev.github.io/Food/)
 
 ![Project preview](./img/readme.gif)
 
